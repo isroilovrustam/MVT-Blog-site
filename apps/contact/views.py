@@ -11,6 +11,6 @@ def contactView(request):
         form.save()
         return redirect('.')
     ctx = {
-        'form': form
+        'form': form,
     }
     return render(request, 'contact.html', ctx)

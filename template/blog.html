@@ -38,13 +38,21 @@
                 <div class="col text-center">
                     <div class="block-27">
                         <ul>
-                            <li><a href="#">&lt;</a></li>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
+                            {% if blogs.has_previous %}
+                                <li><a href="?page={{ blogs.previous_page_number }}"><</a></li>
+                            {% endif %}
+
+                            {% for i in blogs.paginator.page_range %}
+                                {% if blogs.number == i %}
+                                    <li class="active"><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if blogs.has_next %}
+                                <li><a href="?page={{ blogs.next_page_number }}">></a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -58,9 +66,11 @@
                     <h2>Subscribe to our Newsletter</h2>
                     <div class="row justify-content-center">
                         <div class="col-md-5">
-                            <form action="#" class="subscribe-form">
+                            <form method="post" action="#" class="subscribe-form">
+                                {% csrf_token %}
                                 <div class="form-group d-flex">
-                                    <input type="text" class="form-control" placeholder="Enter email address">
+{#                                    <input type="text" class="form-control" placeholder="Enter email address">#}
+                                    {{ subform.email }}
                                     <input type="submit" value="Subscribe" class="submit px-3">
                                 </div>
                             </form>
